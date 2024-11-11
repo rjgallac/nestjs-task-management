@@ -31,7 +31,7 @@ export class TasksController {
     @Post()
     createTask(
         @Body() createTaskDto: CreateTaskDto,
-        @getUser user: User
+        @getUser() user: User
     ): Promise<Task> {
         return this.taskService.createTask(createTaskDto, user);
     }
