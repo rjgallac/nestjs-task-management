@@ -18,13 +18,18 @@ export class TasksController {
 
 
     @Get()
-    getTasks(@Query() filterDto: GetTasksFilterDto): Promise<Task[]> {
-        return this.taskService.getTasks(filterDto);
+    getTasks(
+        @Query() filterDto: GetTasksFilterDto,
+        @getUser() user: User
+    ): Promise<Task[]> {
+        return this.taskService.getTasks(filterDto, user);
     }
 
     @Get('/:id')
-    getTaskById(@Param('id') id: string) : Promise<Task> {
-        return this.taskService.getTaskById(id);
+    getTaskById(
+        @Param('id') id: string,
+        @getUser() user: User) : Promise<Task> {
+        return this.taskService.getTaskById(id, user);
     }
 
 
@@ -37,14 +42,19 @@ export class TasksController {
     }
 
     @Delete('/:id')
-    deleteTaskById(@Param('id') id: string) :void {
-        this.taskService.deleteTaskById(id);
+    deleteTaskById(
+        @Param('id') id: string,
+        @getUser() user: User) :void {
+        this.taskService.deleteTaskById(id, user);
     }
 
     @Patch('/:id/status')
-    pathTaskStatus(@Param('id') id: string, @Body() updateTaskStatusDto: UpdateTaskStatusDto) : Promise<Task> {
+    pathTaskStatus(
+        @Param('id') id: string, 
+        @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+        @getUser() user: User) : Promise<Task> {
         const { status } = updateTaskStatusDto;
-        return this.taskService.updateTaskStatus(id, status);
+        return this.taskService.updateTaskStatus(id, status, user);
     }
 
 
